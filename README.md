@@ -1,2 +1,2 @@
 # unified-zmk-config
-キーボード
+双掌のキーボード設定
