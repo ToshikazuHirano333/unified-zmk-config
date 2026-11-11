@@ -19,6 +19,12 @@
 			compatible = "zmk,behavior-encoder-mouse-scroll";
 			#sensor-binding-cells = <2>;
 		};
+		//ポインタ感度(パーセント)を保持するだけのビヘイビア。設定アプリが値を書き換える
+		ptr_sens: pointer_sensitivity {
+			compatible = "sosho,behavior-pointer-sens";
+			#binding-cells = <1>;
+			display-name = "Pointer Sensitivity";
+		};
 	};
 };
 
@@ -109,6 +115,18 @@ keymap {
 
     extra2 {
         status = "reserved";
+    };
+
+    //設定値の置き場。このレイヤーは有効化しない(キーとしては使わない)。
+    //1番目 = トラックボールの感度(パーセント)、2番目 = トラックパッドの感度(パーセント)。設定アプリが書き換える
+    pointer_settings {
+        display-name = "PointerSettings";
+        bindings = <
+            &ptr_sens 100 &ptr_sens 100 &none &none &none &none &none &none &none &none &none &none
+            &none &none &none &none &none &none &none &none &none &none &none &none
+            &none &none &none &none &none &none &none &none &none &none &none &none
+            &none &none &none &none &none &none &none &none
+        >;
     };
 };
 };
