@@ -62,7 +62,7 @@
 		combo_SCROLL {
             timeout-ms = <50>;
             key-positions = <31 32>;
-            bindings = <&mo 4>;
+            bindings = <&mo 5>; //5 = scroll(reserved)。4 は PointerSettings なので使わない
         };
     };
 };
@@ -109,14 +109,6 @@ keymap {
             &trans &trans               &trans &trans      &trans  &out OUT_BLE                                    &trans         &out OUT_USB
         >;
     };
-    scroll {
-        status = "reserved";
-    };
-
-    extra2 {
-        status = "reserved";
-    };
-
     //設定値の置き場。このレイヤーは有効化しない(キーとしては使わない)。
     //1番目 = トラックボールの感度(パーセント)、2番目 = トラックパッドの感度(パーセント)。設定アプリが書き換える
     pointer_settings {
@@ -127,6 +119,15 @@ keymap {
             &none &none &none &none &none &none &none &none &none &none &none &none
             &none &none &none &none &none &none &none &none
         >;
+    };
+
+    //有効なレイヤーは reserved のレイヤーより前に置く(ZMK は有効なレイヤーが先頭に並ぶ前提で番号を振る)
+    scroll {
+        status = "reserved";
+    };
+
+    extra2 {
+        status = "reserved";
     };
 };
 };
