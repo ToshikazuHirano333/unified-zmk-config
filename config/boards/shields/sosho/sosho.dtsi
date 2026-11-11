@@ -7,7 +7,7 @@
     transform = <&default_transform>;
 };
 
-&uart0 { status = "disabled"; };
+/*&uart0 { status = "disabled"; };*/
 &i2c0  { status = "disabled"; };
 &i2c1  { status = "disabled"; };
 
@@ -47,7 +47,8 @@
         compatible = "alps,ec11";
         a-gpios = <&gpio0 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         b-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        steps = <48>;
+        steps = <96>;
+        resolution = <4>;
         status = "disabled";
     };
 
@@ -55,7 +56,8 @@
         compatible = "alps,ec11";
         a-gpios = <&gpio0 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         b-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        steps = <48>;
+        steps = <96>;
+        resolution = <4>;
         status = "disabled";
     };
 
@@ -176,6 +178,7 @@
 };
 
 /* トラックボールの配線設定 */
+#include <zephyr/dt-bindings/input/input-event-codes.h>
 &spi1 {
     status = "disabled";
     compatible = "nordic,nrf-spim";
@@ -186,12 +189,13 @@
 
     trackball: trackball@0 {
         status = "disabled";
-        compatible = "pixart,pmw3610";
+        compatible = "pixart,pmw3610-alt";
         reg = <0>;
-        spi-max-frequency = <20000000>;
-        motion-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH)>;      // Sample-LOW PRODUCT-HIGH
-        res-cpi = <600>;
-        zephyr,axis-x = <INPUT_REL_X>;
-        zephyr,axis-y = <INPUT_REL_Y>;
+        spi-max-frequency = <2000000>;
+        irq-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH)>;      // Sample-LOW PRODUCT-HIGH
+        cpi = <600>;
+        evt-type = <INPUT_EV_REL>;
+        x-input-code = <INPUT_REL_Y>;
+        y-input-code = <INPUT_REL_X>;
     };
 };
