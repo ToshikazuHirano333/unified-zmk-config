@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: MIT
+
+description: |
+  ポインタ感度(パーセント)をキーマップ上に保持するためだけのビヘイビア。
+  押しても何も起きない。値は sosho,input-processor-pointer-sens が読む。
+
+compatible: "sosho,behavior-pointer-sens"
+
+include: one_param.yaml

@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: MIT
+
+description: |
+  キーマップ上の sosho,behavior-pointer-sens の値(パーセント)で X/Y の移動量を拡縮する。
+  param1 はスロット番号で、設定用レイヤーの何番目のキーを読むかを表す
+  (0 = トラックボール、1 = トラックパッド)。
+
+compatible: "sosho,input-processor-pointer-sens"
+
+include: ip_one_param.yaml

@@ -20,3 +20,18 @@
 &right_encoder{
     status =  "okay";
 };
+
+/* ポインタ感度。値はキーマップの設定用レイヤー(&ptr_sens)から読む。
+   引数はスロット番号: 0 = トラックボール、1 = トラックパッド */
+/ {
+    ptr_sens_ip: ptr_sens_ip {
+        compatible = "sosho,input-processor-pointer-sens";
+        #input-processor-cells = <1>;
+        track-remainders;
+    };
+};
+
+&trackball_listener        { input-processors = <&ptr_sens_ip 0>; };
+&trackball_split_listener  { input-processors = <&ptr_sens_ip 0>; };
+&glidepoint_listener       { input-processors = <&ptr_sens_ip 1>; };
+&glidepoint_split_listener { input-processors = <&ptr_sens_ip 1>; };
