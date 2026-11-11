@@ -5,7 +5,9 @@
 #   scripts/flash.sh L trackpad       左手(トラックパッド版)
 #   scripts/flash.sh reset            settings_reset(ペアリング情報の消去)
 #
-# main の最新の成功ビルドを GitHub Actions から取得し、
+#   BRANCH=pointer-sens scripts/flash.sh R trackball   main 以外のブランチのビルドを書き込む
+#
+# 指定ブランチ(既定は main)の最新の成功ビルドを GitHub Actions から取得し、
 # 書き込みモードのドライブが現れるのを待ってコピーする。
 # 書き込みモードへの入り方:
 #   - レイヤー3(右手下段の &mo 3)を押しながら、書き込みたい側の外端ホーム行キー(&bootloader)
@@ -13,6 +15,7 @@
 set -euo pipefail
 
 REPO="ToshikazuHirano333/unified-zmk-config"
+BRANCH="${BRANCH:-main}"
 
 case "${1:-}" in
   reset) NAME="settings_reset" ;;
@@ -27,8 +30,8 @@ esac
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 
-RUN_ID="$(gh run list --repo "$REPO" --branch main --status success --limit 1 --json databaseId --jq '.[0].databaseId')"
-[ -n "$RUN_ID" ] || { echo "main に成功したビルドが見つかりません" >&2; exit 1; }
+RUN_ID="$(gh run list --repo "$REPO" --branch "$BRANCH" --status success --limit 1 --json databaseId --jq '.[0].databaseId')"
+[ -n "$RUN_ID" ] || { echo "$BRANCH に成功したビルドが見つかりません" >&2; exit 1; }
 echo "ビルド $RUN_ID から $NAME.uf2 を取得します"
 gh run download "$RUN_ID" --repo "$REPO" -D "$WORK" >/dev/null
 UF2="$(find "$WORK" -name "$NAME.uf2" | head -1)"
